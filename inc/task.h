@@ -27,14 +27,17 @@
     \param[in] ... Пояснение ошибки (может быть форматированным сообщением с аргументами)
 */
 #define ERR_LOGGING(code,...) \
-    fprintf(stderr, "\n\nError:\t" __VA_ARGS__ ); \
+    fprintf(stderr, "\n\033[1;41m\n"); \
+    fprintf(stderr, "Error:\t" __VA_ARGS__ ); \
     fprintf(stderr, \
 	"\nCode:\t0x%08X\n" \
 	"File:\t%s\n" \
-	"Line:\t%d\n", \
+	"Line:\t%d\033[0m\n", \
 	code, \
 	__FILE__,__LINE__ \
-    )
+    ); \
+    fprintf(stderr, "\033[0m\n");
+
 #ifdef __linux__
 #pragma GCC diagnostic pop
 #endif

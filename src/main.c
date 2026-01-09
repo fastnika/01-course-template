@@ -23,7 +23,7 @@ int main(void)
     //
     // Автоматизированное тестирование реализации функции
     //
-    printf("CURRENT: TASK-1 SELFTEST\n");
+    printf("\033[1;44mРЕЖИМ РАБОТЫ: Задача 1 (самотестирование)\033[0m\n");
 
 /*!
     Макро-функция тестирования реализации функции func_task1()
@@ -36,11 +36,13 @@ int main(void)
     int return_code; \
     if((return_code = func_task1(input_file)) == waiting_code) \
     { \
-	printf("> "test_name" - SUCCESS (return code - 0x%08X)\n", waiting_code); \
+	printf("> \033[1;33m"test_name"\033[0m - \033[1;42m УСПЕХ \033[0m "); \
+	printf("(код возврата - 0x%08X)\n", waiting_code); \
     } \
     else \
     { \
-	printf("> "test_name" - FAIL (waiting code - 0x%08X, return code - 0x%08X)\n", waiting_code, return_code); \
+	printf("> \033[1;33m"test_name"\033[0m - \033[1;41m ПРОВАЛ \033[0m "); \
+	printf("(ожидаемый код возврата - 0x%08X, код возврата - 0x%08X)\n", waiting_code, return_code); \
 	return TASK1_CODE_SELFTEST_ERROR; \
     } \
     }
@@ -57,7 +59,7 @@ int main(void)
 #undef RUN_SELFTEST
 
     // Завершение работы
-    printf("DONE\n");
+    printf("ВЫПОЛНЕНО\n");
     return TASK1_CODE_NO_ERROR;
 #else
     //
@@ -65,9 +67,9 @@ int main(void)
     //
     char filein[255] = {0};
     
-    printf("CURRENT: TASK-1 UI\n");
+    printf("\033[1;44mРЕЖИМ РАБОТЫ: Задача 1 (пользовательское взаимодействие)\033[0m\n");
     
-    printf("File name:\n");
+    printf("Имя файла:\n");
     if(scanf("%s", filein) != 1)
     {
 	ERR_LOGGING(TASK1_CODE_NO_INPUT_FILE, "No input file %s", filein);
