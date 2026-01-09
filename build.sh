@@ -16,18 +16,20 @@ set -eu
 
 # Очистка директории построения при наличии
 if [[ -d $BUILDDIR ]]; then 
-    echo -e "\e[1;35m Очистка директории построения $BUILDDIR \e[0m"
+    printf "[$0] \e[1;35mОчистка директории построения $BUILDDIR\e[0m\n"
     rm -r $BUILDDIR
 else
-    echo -e "\e[1;36m Директория построения $BUILDDIR отсутствует \e[0m"
+    printf "[$0] \e[1;36mДиректория построения $BUILDDIR отсутствует\e[0m\n"
 fi
 
 # Формирование проекта
-echo -e "\e[1;35m Формирование проекта в $BUILDDIR \e[0m"
+printf "[$0] \e[1;35mФормирование проекта в $BUILDDIR\e[0m\n"
 cmake -B $BUILDDIR .
 
 # Построение проекта
-echo -e "\e[1;35m Запуск построения проекта в $BUILDDIR \e[0m"
+printf "[$0] \e[1;35mЗапуск построения проекта в $BUILDDIR\e[0m\n"
 cmake --build $BUILDDIR
+
+printf "[$0] \e[1;36mРабота завершена\e[0m\n"
 
 exit 0

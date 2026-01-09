@@ -6,31 +6,35 @@
 # Переход в директорию $1
 EXECUTEDIR=`dirname "$1"`
 EXECUTEFILE=`basename "$1"`
-echo -e "\e[1;35m Переход в директорию $EXECUTEDIR для запуска исполняемого файла $EXECUTEFILE\e[0m"
+SCRIPTFILE=`basename "$0"`
+printf "[$SCRIPTFILE] \e[1;35mЗапуск работы скрипта: $0\e[0m\n"
+printf "[$SCRIPTFILE] \e[1;35mПараметр скрипта: $1\e[0m\n"
+printf "[$SCRIPTFILE] \e[1;35mПереход в директорию $EXECUTEDIR\e[0m\n"
 cd "$EXECUTEDIR"
 
 # Очистка ранее сделанного покрытия
-echo -e "\e[1;35m Очистка в директории $EXECUTEDIR файлов покрятия кода *.gcov \e[0m"
+printf "[$SCRIPTFILE] \e[1;35mОчистка в директории `pwd` файлов покрятия кода *.gcov\e[0m\n"
 rm -f "*.gcov"
 
 # Выполнение запуска параметра
-echo -e "\e[1;35m Запуск в директории $EXECUTEDIR исполняемого файла $EXECUTEFILE с проверкой работы памяти \e[0m"
+printf "[$SCRIPTFILE] \e[1;35mЗапуск в директории `pwd` исполняемого файла $EXECUTEFILE с проверкой работы памяти\e[0m\n"
 valgrind --leak-check=full --show-leak-kinds=all "$1"
 
 # Проверка кода возврата исполняемого файла (если !=0 - покрытие не строится)
 RetVal=$?
 if [ $RetVal -ne 0 ]; then
-    echo .
-    echo -e "\e[1;41m ВНИМАНИЕ! Исполняемый файл $EXECUTEFILE завершил работу с ненулевым кодом возврата\e[0m"
-    echo .
-    exit
+    printf "\n\n[$SCRIPTFILE] \e[1;41mВНИМАНИЕ! Исполняемый файл `pwd` завершил работу с ненулевым кодом возврата\e[0m\n\n"
+    exit 0
 fi
 
 # Формирование отчета построения покрытия для gcda-файлов
+# Примечание: предполагается, что исполняемый файл в директории bin
 for gcda_file in $(find .. -name *.gcda); do
-    echo -e "\e[1;35m Анализ файла покрытия $gcda_file \e[0m"
+    printf "[$SCRIPTFILE] \e[1;35mАнализ файла покрытия $gcda_file \e[0m\n"
     gcov $gcda_file
     cat `basename "$gcda_file" .gcda`.gcov | grep --color=auto -C5 "#####"
 done
 
-echo "\e[1;32m Работа в директории $EXECUTEDIR с исполняемого файлом $EXECUTEFILE завершена \e[0m"
+printf "[$SCRIPTFILE] \e[1;36mРабота в директории `pwd` для исполняемого файла $EXECUTEFILE завершена\e[0m\n"
+
+exit 0
