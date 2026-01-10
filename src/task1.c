@@ -24,7 +24,7 @@ int func_task1(const char* filename)
     fin = fopen(filename, "r");
     if(!fin)
     {
-	ERR_LOGGING(TASK1_CODE_NO_INPUT_FILE, "Error opening file %s", filename);
+	ERR_LOGGING(TASK1_CODE_NO_INPUT_FILE, "Ошибка открытия файла %s", filename);
 	return TASK1_CODE_NO_INPUT_FILE;
     }
 

@@ -122,9 +122,7 @@ endif()
 # Указание директории для копирования исходного теста
 # из искомой поддиректории ${PROJECT_SOURCE_DIR} (месторасположения CMakeLists.txt)
 # в директорию выходного исполняемого файла ${OUTPUT_BIN_DIR} (месторасположение задано выше)
-# Примечание: директория global - глобальные (общие) тесты, task1 - тесты задачи 1, etc.
-add_custom_command(TARGET ${APPNAME_TASK1_SELFTEST} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/test/global ${OUTPUT_BIN_DIR}/test/global)
+# Примечание: директория task1 - тесты задачи 1, task2 - тесты задачи 2, etc.
 add_custom_command(TARGET ${APPNAME_TASK1_SELFTEST} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${PROJECT_SOURCE_DIR}/test/task1 ${OUTPUT_BIN_DIR}/test/task1)
 add_custom_command(TARGET ${APPNAME_TASK2_SELFTEST} POST_BUILD
@@ -142,30 +140,4 @@ add_custom_command(TARGET ${APPNAME_TASK2_SELFTEST}
     POST_BUILD
     COMMAND /bin/sh ${INPUT_UTIL_DIR}/run_coverage.sh ${OUTPUT_BIN_DIR}/${APPNAME_TASK2_SELFTEST}
 )
-endif()
-
-# Добавление CTAGS для работы с CodeJump (автоматизированных переходов) в Midnight Commander
-# Внимание: при использовании данной опции на машине должен быть установлен инструментарий ctags
-# Инструкция по установке: sudo apt-get install universal-ctags
-# Инструкция по использованию в Midnight Commander
-# Перейти курсором на слово на идентификатор для определения
-# "Alt" + "Enter" 	Показать доступные определения для идентификатора
-# "Alt" + "+"		Перейти вперед по определению идентификатора
-# "Alt" + "-"		Перейти назад по определению идентификатора
-if(NOT MSVC AND ENABLING_CTAGS)
-    # Выставление относительного пути для работы CTAGS
-    file(RELATIVE_PATH ABSOLUTE_INPUT_INC_DIR ${CMAKE_SOURCE_DIR} ${INPUT_INC_DIR})
-    file(RELATIVE_PATH ABSOLUTE_INPUT_SRC_DIR ${CMAKE_SOURCE_DIR} ${INPUT_SRC_DIR})
-
-    # Указание команды для сбора СTAGS с указанием формирования в ${CMAKE_SOURCE_DIR}/CTAGS
-    add_custom_command(
-        OUTPUT ${CMAKE_SOURCE_DIR}/CTAGS
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-        COMMAND ctags -R --c-kinds=+lzp --fields=+iaS --extras=+q -e ${ABSOLUTE_INPUT_INC_DIR} ${ABSOLUTE_INPUT_SRC_DIR}
-    )
-
-    # Добавление зависимостей для проектов
-    add_custom_target(generate_ctags ALL DEPENDS ${CMAKE_SOURCE_DIR}/CTAGS)
-    add_dependencies(${APPNAME_TASK1} generate_ctags)
-    add_dependencies(${APPNAME_TASK2} generate_ctags)
 endif()

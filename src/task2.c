@@ -9,7 +9,6 @@
 
 #include "task.h"
 #include <float.h>
-#include <limits.h>
 #include <math.h>
 
 /*!
@@ -28,20 +27,20 @@ int func_task2(const char* filename, double x, int N)
     //
     if(fabs(x) < DBL_EPSILON)
     {
-	ERR_LOGGING(TASK2_CODE_INCORRECT_ADV_DATA, "Value x (%g) isn't range", x);
+	ERR_LOGGING(TASK2_CODE_INCORRECT_ADV_DATA, "Значение x (%g) некорректно", x);
 	return TASK2_CODE_INCORRECT_ADV_DATA;
     }
     
-    if(!((N > 0) && (N <= INT_MAX)))
+    if(N <= 0)
     {
-	ERR_LOGGING(TASK2_CODE_INCORRECT_ADV_DATA, "Value N (%d) isn't range", N);
+	ERR_LOGGING(TASK2_CODE_INCORRECT_ADV_DATA, "Значение N (%d) некорректно", N);
 	return TASK2_CODE_INCORRECT_ADV_DATA;
     }
 
     fin = fopen(filename, "r");
     if(!fin)
     {
-	ERR_LOGGING(TASK2_CODE_NO_INPUT_FILE, "Error opening file %s", filename);
+	ERR_LOGGING(TASK2_CODE_NO_INPUT_FILE, "Ошибка открытия файла %s", filename);
 	return TASK2_CODE_NO_INPUT_FILE;
     }
 

@@ -150,7 +150,7 @@ int func_task1(const char* filename);
     Функция решения Задачи 2
     \param[in] filename Наименование входного файла для обработки
     \param[in] x_value Значение искомой точки
-    \param[in] N_value Значение искомой точности считывания
+    \param[in] N_value Значение искомого разбиения
     \return Результат выполнения операции (в соответствии с описанными кодами возврата)
 */
 int func_task2(const char* filename, double x, int N);
