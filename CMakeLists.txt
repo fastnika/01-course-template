@@ -35,12 +35,14 @@ project(sequence C)
 # Указание рекомендуемых флагов компиляции (для адаптации программы в компьютерном классе)
 # Примечание: Актуально для ОС Linux компилятора gcc
 if(NOT MSVC)
+if(NOT APPLE)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} \
     -W -Wall -Wfloat-equal -Wpointer-arith -Wwrite-strings -Wcast-align -Wformat-security \
     -Wmissing-format-attribute -Wformat=1 -Wno-long-long -Wcast-align -Winline -Werror \
     -pedantic -pedantic-errors -std=gnu99 -Wstrict-prototypes -Wmissing-prototypes \
     -Wmissing-declarations -Wold-style-definition -Wdeclaration-after-statement \
     -Wbad-function-cast -Wnested-externs -Wunused -Wuninitialized -fPIC")
+endif()
 endif()
 
 # Предварительное опредление переменных наименований подпроектов
@@ -102,6 +104,7 @@ target_compile_definitions(${APPNAME_TASK2} PRIVATE -DTASK2)
 target_compile_definitions(${APPNAME_TASK2_SELFTEST} PRIVATE -DTASK2 -DSELFTEST)
 
 if(NOT MSVC)
+if(NOT APPLE)
 # Дополнительное указание библиотеки автоматизированного покрытия для компилятора gcc в режиме отладки при проведении самотестирования
 target_compile_options(${APPNAME_TASK1_SELFTEST} PRIVATE -g --coverage)
 target_compile_options(${APPNAME_TASK2_SELFTEST} PRIVATE -g --coverage)
@@ -112,6 +115,7 @@ target_link_libraries(${APPNAME_TASK2_SELFTEST} PRIVATE gcov)
 #target_link_libraries(${APPNAME_TASK1_SELFTEST} PRIVATE m)
 #target_link_libraries(${APPNAME_TASK2} PRIVATE m)
 #target_link_libraries(${APPNAME_TASK2_SELFTEST} PRIVATE m)
+endif()
 else()
 # Указание для ОС Windows возможности использования unsafe functions
 add_definitions(-D_CRT_SECURE_NO_WARNINGS)
@@ -131,6 +135,7 @@ add_custom_command(TARGET ${APPNAME_TASK2_SELFTEST} POST_BUILD
 if(MSVC)
 # Автоматизированный запуск каждого проекта для ОС Windows
 else()
+if(NOT APPLE)
 # Автоматизированный запуск встроенной утилиты покрытия gcov для selftest каждого проекта для ОС Linux
 add_custom_command(TARGET ${APPNAME_TASK1_SELFTEST}
     POST_BUILD
@@ -140,4 +145,5 @@ add_custom_command(TARGET ${APPNAME_TASK2_SELFTEST}
     POST_BUILD
     COMMAND /bin/sh ${INPUT_UTIL_DIR}/run_coverage.sh ${OUTPUT_BIN_DIR}/${APPNAME_TASK2_SELFTEST}
 )
+endif()
 endif()
