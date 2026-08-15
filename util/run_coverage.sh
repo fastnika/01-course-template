@@ -14,8 +14,10 @@ printf "$MSGPREFIX \e[0;32mПереход в директорию $EXECUTEDIR\e[
 cd "$EXECUTEDIR"
 
 # Очистка ранее сделанного покрытия
-printf "$MSGPREFIX \e[0;32mОчистка в директории `pwd` файлов покрятия кода *.gcov\e[0m\n"
+printf "$MSGPREFIX \e[0;32mОчистка в директории `pwd` файлов покрытия кода *.gcov\e[0m\n"
 rm -f "*.gcov"
+printf "$MSGPREFIX \e[0;32mОчистка в директории $(realpath ..) файлов покрытия кода *.gcda\e[0m\n"
+find .. -name '*.gcda' -delete
 
 # Выполнение запуска параметра
 printf "$MSGPREFIX \e[0;32mЗапуск в директории `pwd` исполняемого файла $EXECUTEFILE с проверкой работы памяти\e[0m\n"
