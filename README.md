@@ -161,7 +161,7 @@ $
 </details>
 
 <details>
-<summary>Демонстрация отладки с использованием GDB для sequence_task1_selftest (после построения template с использованием cmake)</summary>
+<summary>Демонстрация отладки с использованием GDB для sequence_task1_selftest (после построения с использованием cmake)</summary>
 
 Список команд: https://fastnika.ru/distr/commands.pdf
 
